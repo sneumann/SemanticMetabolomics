@@ -39,6 +39,7 @@ Record2CHEBIrdf <- function(record){
 	if(chebLink == ""){
 		InchiKeyLinkIndex <- which(regexpr("INCHIKEY", Links, fixed=TRUE) == 1)
 		if(length(InchiKeyLinkIndex > 1)){
+			print(substring(Links[[InchiKeyLinkIndex]], 10))
 			CTSREC <- getCtsRecord(substring(Links[[InchiKeyLinkIndex]], 10))
 			CTSTYPES <- CTS.externalIdTypes(CTSREC)
 			if("ChEBI" %in% CTSTYPES)
@@ -46,7 +47,7 @@ Record2CHEBIrdf <- function(record){
 				chebID <- CTS.externalIdSubset(CTSREC,"ChEBI")
 				chebID <- chebID[[which.min(nchar(chebID))]]
 			}
-			chebLink <- paste0("https://www.ebi.ac.uk/chebi/searchId.do?chebiId=",chebID, 6)
+			chebLink <- paste0("https://www.ebi.ac.uk/chebi/searchId.do?chebiId=",chebID)
 		}
 	}
 	retvec <- c(record,"is record of",chebLink)

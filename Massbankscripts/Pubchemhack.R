@@ -16,14 +16,15 @@
 }
 
 
-Record2CHEBIrdf <- function(record){
+Record2CHEBIrdf <- function(record, checkex = FALSE){
 	require(RMassBank)
 	require(RCurl)
 	
-	if(!url.exists(record)){
+	onlrecord <- paste0("http://www.massbank.jp/SVN/OpenData/record/",basename(dirname(record)),"/",basename(record))
+	
+	if(!url.exists(record) && checkex){
 		##Try to find out the URL of the record in Opendata
-		onlrecord <- paste0("http://www.massbank.jp/SVN/OpenData/record/",basename(dirname(record)),"/",basename(record))
-		if(!url.exists(onlrecord)){
+		if(!url.exists(onlrecord) && checkex){
 			warning("The record isn't available in Massbank Opendata and local URIs will be returned")
 		}
 	}
@@ -39,7 +40,6 @@ Record2CHEBIrdf <- function(record){
 	if(chebLink == ""){
 		InchiKeyLinkIndex <- which(regexpr("INCHIKEY", Links, fixed=TRUE) == 1)
 		if(length(InchiKeyLinkIndex > 1)){
-			print(substring(Links[[InchiKeyLinkIndex]], 10))
 			CTSREC <- getCtsRecord(substring(Links[[InchiKeyLinkIndex]], 10))
 			CTSTYPES <- CTS.externalIdTypes(CTSREC)
 			if("ChEBI" %in% CTSTYPES)
@@ -50,9 +50,9 @@ Record2CHEBIrdf <- function(record){
 			chebLink <- paste0("https://www.ebi.ac.uk/chebi/searchId.do?chebiId=",chebID)
 		}
 	}
-	retvec <- c(record,"is record of",chebLink)
-	names(retvec) <- c("Subject", "Predicate", "Object")
-	return(retvec)
+	retmat <- matrix(c(onlrecord,"is record of",chebLink),1,3)
+	colnames(retmat) <- c("Subject", "Predicate", "Object")
+	return(retmat)
 }
 
-Record2CHEBIrdf("http://www.massbank.jp/SVN/OpenData/record/IPB_Halle/PB000166.txt")
+mat <- lapply(list.files("OpenData/IPB_Halle/",full.names=TRUE)[1:10], Record2CHEBIrdf)

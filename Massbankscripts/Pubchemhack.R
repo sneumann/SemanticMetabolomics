@@ -22,7 +22,7 @@ Record2CHEBIrdf <- function(record){
 	
 	if(!url.exists(record)){
 		##Try to find out the URL of the record in Opendata
-		onlrecord <- paste0("http://www.massbank.jp/SVN/OpenData/record/",dirname(record),"/",basename(record))
+		onlrecord <- paste0("http://www.massbank.jp/SVN/OpenData/record/",basename(dirname(record)),"/",basename(record))
 		if(!url.exists(onlrecord)){
 			warning("The record isn't available in Massbank Opendata and local URIs will be returned")
 		}

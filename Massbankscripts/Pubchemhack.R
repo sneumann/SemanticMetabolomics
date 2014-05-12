@@ -55,4 +55,10 @@ Record2CHEBIrdf <- function(record, checkex = FALSE){
 	return(retmat)
 }
 
-mat <- lapply(list.files("OpenData/IPB_Halle/",full.names=TRUE)[1:10], Record2CHEBIrdf)
+mat <- lapply(list.files("OpenData/IPB_Halle/",full.names=TRUE)[1:20], Record2CHEBIrdf)
+require(rrdf)
+ret <- new.rdf()
+for(i in 1:length(mat)){
+	add.triple(ret, mat[[i]][1],mat[[i]][2],mat[[i]][3])
+}
+save.rdf(ret, "triple.nt","N-TRIPLES")

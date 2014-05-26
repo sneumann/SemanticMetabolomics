@@ -46,19 +46,28 @@ Record2CHEBIrdf <- function(record, checkex = FALSE){
 			{
 				chebID <- CTS.externalIdSubset(CTSREC,"ChEBI")
 				chebID <- chebID[[which.min(nchar(chebID))]]
+			} else{
+				return(NULL)
 			}
 			chebLink <- paste0("https://www.ebi.ac.uk/chebi/searchId.do?chebiId=",chebID)
 		}
 	}
-	retmat <- matrix(c(onlrecord,"is record of",chebLink),1,3)
+	retmat <- matrix(c(onlrecord,"http://localhost:8890/DAV/definitions/is_record_of",chebLink),1,3)
 	colnames(retmat) <- c("Subject", "Predicate", "Object")
 	return(retmat)
 }
 
-mat <- lapply(list.files("OpenData/IPB_Halle/",full.names=TRUE)[1:20], Record2CHEBIrdf)
+##Execute from parent folder of Opendata
+
+mat <- lapply(list.files("OpenData/IPB_Halle/",full.names=TRUE), Record2CHEBIrdf)
+for(i in length(mat):1){
+	if(is.null(mat[[i]])){
+		mat[[i]] <- NULL
+	}
+}
 require(rrdf)
 ret <- new.rdf()
 for(i in 1:length(mat)){
 	add.triple(ret, mat[[i]][1],mat[[i]][2],mat[[i]][3])
 }
-save.rdf(ret, "triple.nt","N-TRIPLES")
+save.rdf(ret, "triple.xml","RDF/XML")

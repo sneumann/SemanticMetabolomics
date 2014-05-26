@@ -1,0 +1,23 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix mb: <http://localhost:8990/> .
+
+mb:record a rdfs:Class ;
+	rdfs:isDefinedBy <http://localhost:8990/> ;
+	rdfs:label "Record" ;
+	rdfs:comment "A class for massbank records" .
+	
+mb:peak a rdf:Property ;
+	rdfs:isDefinedBy <http://localhost:8990/> ;
+	rdfs:label "Peak" ;
+	rdfs:range xsd:integer ;
+	rdfs:comment "A peak of the linked record" ;
+	rdfs:subPropertyOf <http://www.w3.org/TR/rdf-schema/#ch_literal> .
+	
+mb:accession a dcterms:title ;
+    rdfs:isDefinedBy <http://localhost:8990/> ;
+    rdfs:label "Accession number" ;
+    rdfs:range xsd:string ;
+	rdfs:comment "The accession number of the record in Massbank" ;
+    rdfs:subPropertyOf <http://purl.org/dc/elements/1.1/title> .

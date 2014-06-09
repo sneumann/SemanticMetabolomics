@@ -27,7 +27,7 @@ mbco:accession a rdf:Property ;
     rdfs:range xsd:string ;
 	rdfs:comment "The accession number of the record in Massbank" .
 	
-mbco:contains_peak a rdf:Property ;
+mbco:contains-peak a rdf:Property ;
 	rdfs:isDefinedBy <http://www.ipb-halle.de/ontology/mbco#contains_peak> ;
 	rdfs:range mbco:peak ;
 	rdfs:label "The link between mbco:record and mbco:peak" .
@@ -44,7 +44,7 @@ mbco:intensity a rdf:Property ;
     rdfs:range xsd:integer ;
 	rdfs:comment "The intensity of a given peak stored as an integer value" .
 	
-mbco:is_peak_of a rdf:Property ;
+mbco:is-peak-of a rdf:Property ;
 	rdfs:isDefinedBy <http://www.ipb-halle.de/ontology/mbco#is_peak_of> ;
 	rdfs:range mbco:record ;
 	rdfs:label "The link between mbco:peak and mbco:record" .

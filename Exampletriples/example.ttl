@@ -7,11 +7,23 @@
 <http://www.ipb-halle.de/ontology/record:PB000122> a mbco:record ;
 	ov:x-chebi <http://bio2rdf.org/chebi:50202> ;
 	mbco:accession "PB000122" ;
-	mbco:contains_peak <http://www.ipb-halle.de/ontology/peak:PB000122_1> ;
-	mbco:contains_peak <http://www.ipb-halle.de/ontology/peak:PB000122_2> ;
-	mbco:contains_peak <http://www.ipb-halle.de/ontology/peak:PB000122_3> ;
-	mbco:contains_peak <http://www.ipb-halle.de/ontology/peak:PB000122_4> .
+	mbco:contains-peak <http://www.ipb-halle.de/ontology/peak:PB000122_1> ;
+	mbco:contains-peak <http://www.ipb-halle.de/ontology/peak:PB000122_2> ;
+	mbco:contains-peak <http://www.ipb-halle.de/ontology/peak:PB000122_3> ;
+	mbco:contains-peak <http://www.ipb-halle.de/ontology/peak:PB000122_4> .
 	
-<http://www.ipb-halle.de/ontology/record:PB000122_1> a mbco:peak ;
-	mbco:is_peak_of <http://www.ipb-halle.de/ontology/record:PB000122> ;
+<http://www.ipb-halle.de/ontology/peak:PB000122_1> a mbco:peak ;
+	mbco:is-peak-of <http://www.ipb-halle.de/ontology/record:PB000122> ;
 	mbco:mz "147.044" .
+
+<http://www.ipb-halle.de/ontology/peak:PB000122_2> a mbco:peak ;
+	mbco:is-peak-of <http://www.ipb-halle.de/ontology/record:PB000122> ;
+	mbco:mz "153.019" .
+
+<http://www.ipb-halle.de/ontology/peak:PB000122_3> a mbco:peak ;
+	mbco:is-peak-of <http://www.ipb-halle.de/ontology/record:PB000122> ;
+	mbco:mz "273.076" .
+
+<http://www.ipb-halle.de/ontology/peak:PB000122_4> a mbco:peak ;
+	mbco:is-peak-of <http://www.ipb-halle.de/ontology/record:PB000122> ;
+	mbco:mz "274.083" .

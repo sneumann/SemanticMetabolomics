@@ -49,11 +49,16 @@ Record2CHEBIrdf <- function(record, checkex = FALSE){
 			} else{
 				return(NULL)
 			}
-			chebLink <- paste0("https://www.ebi.ac.uk/chebi/searchId.do?chebiId=",chebID)
+			chebLink <- paste0("http://bio2rdf.org/chebi:",chebID)
 		}
 	}
 	retmat <- matrix(c(onlrecord,"http://localhost:8890/DAV/definitions/is_record_of",chebLink),1,3)
 	colnames(retmat) <- c("Subject", "Predicate", "Object")
+	
+	###Get the Instrument
+	
+	
+	
 	return(retmat)
 }
 

@@ -1,23 +1,62 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix mb: <http://localhost:8990/> .
+@prefix mbco: <http://www.ipb-halle.de/ontology/mbco#> .
 
-mb:record a rdfs:Class ;
-	rdfs:isDefinedBy <http://localhost:8990/> ;
+mbco:record a rdfs:Class ;
+	rdfs:isDefinedBy <http://www.ipb-halle.de/ontology/mbco#record> ;
 	rdfs:label "Record" ;
-	rdfs:comment "A class for massbank records" .
+	rdfs:comment "A class for massbank records" ;
+	rdfs:subClassOf <http://semanticscience.org/resource/SIO_000088> .
 	
-mb:peak a rdf:Property ;
-	rdfs:isDefinedBy <http://localhost:8990/> ;
+mbco:peak a rdfs:Class ;
+	rdfs:isDefinedBy <http://www.ipb-halle.de/ontology/mbco#peak> ;
 	rdfs:label "Peak" ;
-	rdfs:range xsd:integer ;
 	rdfs:comment "A peak of the linked record" ;
-	rdfs:subPropertyOf <http://www.w3.org/TR/rdf-schema/#ch_literal> .
+	rdfs:subClassOf <http://semanticscience.org/resource/SIO_011123> .
 	
-mb:accession a dcterms:title ;
-    rdfs:isDefinedBy <http://localhost:8990/> ;
+mbco:meta a rdfs:Class ;
+	rdfs:isDefinedBy <http://www.ipb-halle.de/ontology/mbco#meta> ;
+	rdfs:label "Meta-information of a record" ;
+	rdfs:comment "Contains meta-information about the recorded spectrum" ;
+	rdfs:subClassOf <http://semanticscience.org/resource/SIO_000088>.
+	
+mbco:accession a rdf:Property ;
+    rdfs:isDefinedBy <http://www.ipb-halle.de/ontology/mbco#accession> ;
     rdfs:label "Accession number" ;
     rdfs:range xsd:string ;
-	rdfs:comment "The accession number of the record in Massbank" ;
-    rdfs:subPropertyOf <http://purl.org/dc/elements/1.1/title> .
+	rdfs:comment "The accession number of the record in Massbank" .
+	
+mbco:contains_peak a rdf:Property ;
+	rdfs:isDefinedBy <http://www.ipb-halle.de/ontology/mbco#contains_peak> ;
+	rdfs:range mbco:peak ;
+	rdfs:label "The link between mbco:record and mbco:peak" .
+
+mbco:instrument a rdf:Property ;
+	rdfs:isDefinedBy <http://www.ipb-halle.de/ontology/mbco#instrument> ;
+    rdfs:label "Mass spectrometry instrument" ;
+    rdfs:range xsd:string ;
+	rdfs:comment "The instrument with which the spectrum of the record was created" .	
+	
+mbco:intensity a rdf:Property ;
+	rdfs:isDefinedBy <http://www.ipb-halle.de/ontology/mbco#intensity> ;
+    rdfs:label "The intensity of a peak" ;
+    rdfs:range xsd:integer ;
+	rdfs:comment "The intensity of a given peak stored as an integer value" .
+	
+mbco:is_peak_of a rdf:Property ;
+	rdfs:isDefinedBy <http://www.ipb-halle.de/ontology/mbco#is_peak_of> ;
+	rdfs:range mbco:record ;
+	rdfs:label "The link between mbco:peak and mbco:record" .
+	
+mbco:mz a rdf:Property ;
+	rdfs:isDefinedBy <http://www.ipb-halle.de/ontology/mbco#mz> ;
+    rdfs:label "The mass/charge ratio of a peak" ;
+    rdfs:range xsd:float ;
+	rdfs:comment "The mass/charge ratio of a given peak stored as a float value" .
+	
+mbco:rel-intensity a rdf:Property ;
+	rdfs:isDefinedBy <http://www.ipb-halle.de/ontology/mbco#mz> ;
+    rdfs:label "The relative intensity of a peak" ;
+    rdfs:range xsd:integer ;
+	rdfs:comment "The relative intensity of a given peak, where the maximum intensity in a spectrum is defined as 999 while all others are put in relationship" .

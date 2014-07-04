@@ -39,3 +39,11 @@ sparql.rdf(store, paste(
 	" ?subject <http://bio2rdf.org/obo_vocabulary:x-chebi> ?object",
 	"}"
 ))
+
+sparql.rdf(store, paste(
+	"SELECT ?subject ?object ?chemblid WHERE{",
+	" ?subject <http://bio2rdf.org/obo_vocabulary:x-chebi> ?object.",
+	"SERVICE <http://bioportal.bio2rdf.org/sparql>{",
+	" ?object <http://bio2rdf.org/obo_vocabulary:x-chembl> ?chemblid.",
+	"}}"
+))

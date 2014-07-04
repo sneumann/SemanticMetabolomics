@@ -1,0 +1,408 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY terms "http://purl.org/dc/terms/" >
+    <!ENTITY doap "http://usefulinc.com/ns/doap#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY skos "http://www.w3.org/2004/02/skos/core#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.ipb-halle.de/ontology/SemMetab#"
+     xml:base="http://www.ipb-halle.de/ontology/SemMetab"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:terms="http://purl.org/dc/terms/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:doap="http://usefulinc.com/ns/doap#"
+     xmlns:skos="http://www.w3.org/2004/02/skos/core#">
+    <owl:Ontology rdf:about="http://www.ipb-halle.de/ontology/SemMetab">
+        <doap:language xml:lang="en"></doap:language>
+        <doap:developer xml:lang="en">Daniel Schober</doap:developer>
+        <doap:maintainer xml:lang="en">Daniel Schober</doap:maintainer>
+        <dc:format xml:lang="en">rather flat RDF semantics, few existential DL axiomatisations</dc:format>
+        <skos:changeNote>todos: add bindings to NCI Tax,Chebi, ...</skos:changeNote>
+        <terms:license xml:lang="en"> Creative Commons Attribution 4.0 license</terms:license>
+        <skos:editorialNote xml:lang="en">First draft</skos:editorialNote>
+        <dc:description xml:lang="en">The massbank core ontology is developed to support the IPB mass bank LOD RDF data sets with meaningful semantic identifyers in order to support semantic integration in metabolomics.</dc:description>
+        <doap:developer xml:lang="en">[add your name]</doap:developer>
+        <skos:prefLabel xml:lang="en">mass bank core ontology (mbco)</skos:prefLabel>
+        <owl:imports rdf:resource="http://semanticscience.org/ontology/sio.owl"/>
+        <owl:imports rdf:resource="http://usefulinc.com/ns/doap#"/>
+        <owl:versionIRI rdf:resource="http://www.ipb-halle.de/ontology/SemMetab/0.0.1"/>
+        <owl:imports rdf:resource="http://www.w3.org/2004/02/skos/core"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000001 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000001">
+        <rdfs:label xml:lang="en">Leibniz Institute of Plant Biochemistry</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://xmlns.com/foaf/0.1/Organization"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000002 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000002">
+        <rdfs:label xml:lang="en">GC-MS experiment</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000021"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000003 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000003">
+        <rdfs:label xml:lang="en">NMR experiment</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_000994"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000004 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000004">
+        <rdfs:label xml:lang="en">GC-MS assay</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_001007"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000005 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000005">
+        <rdfs:label xml:lang="en">mass of molecular entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_000279"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000006 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000006">
+        <rdfs:label xml:lang="en">molecular mass</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000005"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000007 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000007">
+        <rdfs:label xml:lang="en">isotopic mass</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000005"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000008 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000008">
+        <rdfs:label xml:lang="en">average mass</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000005"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000009 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000009">
+        <rdfs:label xml:lang="en">exact mass</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000005"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000010 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000010">
+        <rdfs:label xml:lang="en">molecular weight</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000005"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000011 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000011">
+        <rdfs:label xml:lang="en">Chebi id</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_000732"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000012 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000012">
+        <rdfs:label xml:lang="en">mass bank accession</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_000729"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000013 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000013">
+        <rdfs:label xml:lang="en">mass bank record title</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_000185"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000014 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000014">
+        <rdfs:label xml:lang="en">molecular entity name</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_000116"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000015 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000015">
+        <rdfs:label xml:lang="en">chemical formula</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000016"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000016 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000016">
+        <rdfs:label xml:lang="en">representation of molecule</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_000648"/>
+        <skos:editorialNote>could be under &apos;biomolecular structure descriptor&apos; as well ?</skos:editorialNote>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000017 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000017">
+        <rdfs:label xml:lang="en">SMILES string</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000016"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000018 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000018">
+        <rdfs:label xml:lang="en">InChi key</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000016"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000019 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000019">
+        <rdfs:label xml:lang="en">InChi</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000016"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000020 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000020">
+        <rdfs:label xml:lang="en">mass spec instrument type</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_001236"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000021 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000021">
+        <rdfs:label xml:lang="en">mass spectrometry experiment type</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_001180"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://semanticscience.org/resource/SIO_000008"/>
+                <owl:someValuesFrom rdf:resource="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000023"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000022 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000022">
+        <rdfs:label xml:lang="en">mass bank record author role</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_000886"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000023 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000023">
+        <rdfs:label xml:lang="en">mass spectrometry parameter</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_000144"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000024 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000024">
+        <rdfs:label xml:lang="en">ionization ESI</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000023"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000025 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000025">
+        <rdfs:label xml:lang="en">chromatography parameter</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_000144"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000026 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000026">
+        <rdfs:label xml:lang="en">retention time</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000025"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000027 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000027">
+        <rdfs:label xml:lang="en">mass spectrometry data processing</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_000595"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000028 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000028">
+        <rdfs:label xml:lang="en">mass spectrometry peak</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_011123"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000029 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000029">
+        <rdfs:label xml:lang="en">mass spectrometry peak descriptor</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_011123"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://semanticscience.org/resource/SIO_000332"/>
+                <owl:someValuesFrom rdf:resource="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000028"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000030 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000030">
+        <rdfs:label xml:lang="en">sample used in mass spectrometry experiment</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_010412"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000031 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000031">
+        <rdfs:label xml:lang="en">sample used in nmr experiment</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_010412"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000032 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000032">
+        <rdfs:label xml:lang="en">organismal sample</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000030"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://semanticscience.org/resource/SIO_000244"/>
+                <owl:someValuesFrom rdf:resource="http://semanticscience.org/resource/SIO_010000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ipb-halle.de/ontology/semMetab#MBCO:0000033 -->
+
+    <owl:Class rdf:about="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000033">
+        <rdfs:label xml:lang="en">mass bank record</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/SIO_000088"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://semanticscience.org/resource/SIO_000338"/>
+                <owl:someValuesFrom rdf:resource="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000028"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://semanticscience.org/resource/SIO_000008"/>
+                <owl:someValuesFrom rdf:resource="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000013"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://semanticscience.org/resource/SIO_000066"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://semanticscience.org/resource/SIO_010000"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://semanticscience.org/resource/SIO_000228"/>
+                                <owl:someValuesFrom rdf:resource="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000022"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://semanticscience.org/resource/SIO_000673"/>
+                <owl:someValuesFrom rdf:resource="http://www.ipb-halle.de/ontology/semMetab#MBCO:0000012"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+

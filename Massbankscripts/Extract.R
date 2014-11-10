@@ -1,3 +1,33 @@
+Record2CHEBIrdf <- function(w, checkex = FALSE){
+	require(RMassBank)
+
+	Links <- w@compiled_ok[[1]][['CH$LINK']]
+	ChebLinkIndex <- which(regexpr("CHEBI", Links, fixed=TRUE) == 1)
+	chebLink <- ""
+	
+	if(length(ChebLinkIndex >= 1)){
+		chebLink <- paste0("http://bio2rdf.org/chebi",substring(Links[[ChebLinkIndex]], 6))
+	}
+	
+	if(chebLink == ""){
+		InchiKeyLinkIndex <- which(regexpr("INCHIKEY", Links, fixed=TRUE) == 1)
+		if(length(InchiKeyLinkIndex > 1)){
+			CTSREC <- getCtsRecord(substring(Links[[InchiKeyLinkIndex]], 10))
+			CTSTYPES <- CTS.externalIdTypes(CTSREC)
+			if("ChEBI" %in% CTSTYPES)
+			{
+				chebID <- CTS.externalIdSubset(CTSREC,"ChEBI")
+				chebID <- chebID[[which.min(nchar(chebID))]]
+			} else{
+				return(NULL)
+			}
+			chebLink <- paste0("http://bio2rdf.org/chebi",substring(chebID,6))
+		}
+	}
+	
+	return(chebLink)
+}
+
 
 ##Extract Everything:
 EXTRACT <- function(record){
@@ -11,37 +41,45 @@ EXTRACT <- function(record){
 	
 	##CLASSES (except peak, comes later)
 	RECRD <- paste0("http://www.ipb-halle.de/ontologydata/record:",ACCES)
-	ASSAY <- paste0("http://www.ipb-halle.de/ontologydata/assay:",ACCES)
-	SPCTR <- paste0("http://www.ipb-halle.de/ontologydata/spectrum:",ACCES)
+	ASSAY <- paste0("http://www.ipb-halle.de/ontologydata/mass_spectrometry_assay:",ACCES)
+	SPCTR <- paste0("http://www.ipb-halle.de/ontologydata/mass_spectrum:",ACCES)
 		InchKeyIndex <- which(regexpr("INCHIKEY", Links, fixed=TRUE) == 1)
 		if(length(InchKeyIndex) > 0){
 	INCHK <- substring(Links[[InchKeyIndex]], 10)
-	CHENT <- paste0("http://www.ipb-halle.de/ontologydata/chemical-entity:",ACCES,"_",INCHK)
+	CHENT <- paste0("http://www.ipb-halle.de/ontologydata/chemical_entity:",ACCES,"_",INCHK)
 		} else{
 			return(NULL)
 		}
-		
+	
+
+	
+	
 	##PROPERTIES (between classes)
 	DESCR <- "http://www.ipb-halle.de/ontology/mbco#describes"
-	IDESC <- "http://www.ipb-halle.de/ontology/mbco#is-described-by"
-	OUTPU <- "http://www.ipb-halle.de/ontology/mbco#has-output"
-	IOUTP <- "http://www.ipb-halle.de/ontology/mbco#is-output-of"
+	IDESC <- "http://www.ipb-halle.de/ontology/mbco#is_described_by"
+	OUTPU <- "http://www.ipb-halle.de/ontology/mbco#has_output"
+	IOUTP <- "http://www.ipb-halle.de/ontology/mbco#is_output_of"
 	IDENT <- "http://www.ipb-halle.de/ontology/mbco#identifies"
-	IIDEN <- "http://www.ipb-halle.de/ontology/mbco#is-identified-by"
-	CPEAK <- "http://www.ipb-halle.de/ontology/mbco#contains-peak"
-	IPEAK <- "http://www.ipb-halle.de/ontology/mbco#is-peak-of"
+	IIDEN <- "http://www.ipb-halle.de/ontology/mbco#identified_by"
+	CPEAK <- "http://www.ipb-halle.de/ontology/mbco#has_constituent"
+	IPEAK <- "http://www.ipb-halle.de/ontology/mbco#constituates"
+	CHEBI <- "http://www.ipb-halle.de/ontology/mbco#chebi_link"
 	
 	##PROPERTIES (to strings, ints, etc.)
-	MZ <- "http://www.ipb-halle.de/ontology/mbco#has-mz"
-	INT <- "http://www.ipb-halle.de/ontology/mbco#has-int"
-	RELINT <- "http://www.ipb-halle.de/ontology/mbco#has-rel-int"
-	ACCESSION <- "http://www.ipb-halle.de/ontology/mbco#has-accession"
-	MSTYPE <- "http://www.ipb-halle.de/ontology/mbco#ms-type"
-	IONMODE <- "http://www.ipb-halle.de/ontology/mbco#ion-mode"
+	MZ <- "http://www.ipb-halle.de/ontology/mbco#encodes_mz"
+	INT <- "http://www.ipb-halle.de/ontology/mbco#has_intensity"
+	RELINT <- "http://www.ipb-halle.de/ontology/mbco#has_rel_intensity"
+	ACCESSION <- "http://www.ipb-halle.de/ontology/mbco#has_accession"
+	MSTYPE <- "http://www.ipb-halle.de/ontology/mbco#ms_type"
+	IONMODE <- "http://www.ipb-halle.de/ontology/mbco#ion_mode"
 	HASNAME <- "http://www.ipb-halle.de/ontology/mbco#name"
-	HASFORMULA <- "http://www.ipb-halle.de/ontology/mbco#has-formula"
-	HASSMILES <- "http://www.ipb-halle.de/ontology/mbco#has-smiles"
-	RECLINK <- "http://www.ipb-halle.de/ontology/mbco#hyperlink-record"
+	HASFORMULA <- "http://www.ipb-halle.de/ontology/mbco#has_formula"
+	HASSMILES <- "http://www.ipb-halle.de/ontology/mbco#has_smiles"
+	RECLINK <- "http://www.ipb-halle.de/ontology/mbco#hyperlink_record"
+	
+	##Find Chebi link
+	CHEBLINK <- Record2CHEBIrdf(w)
+	
 	
 	##Generate Classes in the triple store and their relations + Accession and link to record in opendata(always the same)
 	TRIPLIST <- list()
@@ -53,15 +91,32 @@ EXTRACT <- function(record){
 	TRIPLIST[[6]] <- c(SPCTR,IOUTP,ASSAY)
 	TRIPLIST[[7]] <- c(SPCTR,IDENT,CHENT)
 	TRIPLIST[[8]] <- c(CHENT,IIDEN,SPCTR)
+	TRIPLIST[[9]] <- c(RECRD, "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" , "http://www.ipb-halle.de/ontology/mbco#record")
+	TRIPLIST[[10]] <- c(ASSAY, "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" , "http://www.ipb-halle.de/ontology/mbco#mass_spectrometry_assay")
+	TRIPLIST[[11]] <- c(SPCTR, "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" , "http://www.ipb-halle.de/ontology/mbco#mass_spectrum")
+	TRIPLIST[[12]] <- c(CHENT, "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" , "http://www.ipb-halle.de/ontology/mbco#chemical_entity")
+	
+	Currnum <- 12
+	
+	if(!is.null(CHEBLINK)){
+		Currnum <- Currnum + 1
+		TRIPLIST[[Currnum]] <- c(CHENT, CHEBI , CHEBLINK)
+ 	}
 	
 	
-	Currnum <- 8
+	
 	
 	##PEAKS
 	peaks <- w@compiled_ok[[1]][["PK$PEAK"]]
 	PEAKNAMES <- list()
 	for(i in 1:nrow(peaks)){
-		PEAKNAMES[[i]] <- paste0("http://www.ipb-halle.de/ontologydata/peak:",ACCES,"-",peaks[i,1])
+		##Find out peakname
+		PEAKNAMES[[i]] <- paste0("http://www.ipb-halle.de/ontologydata/peak:",ACCES,"_",peaks[i,1])
+		
+		##Write Class
+		Currnum <- Currnum + 1
+		TRIPLIST[[Currnum]] <- c(PEAKNAMES[[i]], "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "http://www.ipb-halle.de/ontology/mbco#peak")
+		
 		Currnum <- Currnum + 1
 		TRIPLIST[[Currnum]] <- c(SPCTR,CPEAK,PEAKNAMES[[i]])
 		Currnum <- Currnum + 1
@@ -77,6 +132,10 @@ EXTRACT <- function(record){
 	
 	##ASSAY PART
 	MS <- w@compiled_ok[[1]][["AC$MASS_SPECTROMETRY"]]
+	
+	Currnum <- Currnum + 1
+	TRIPLIST[[Currnum]] <- c(ASSAY,IONMODE,MS$ION_MODE) 
+	
 	if(!is.na(MS$MS_TYPE)){
 		Currnum <- Currnum + 1
 		TRIPLIST[[Currnum]] <- c(ASSAY,MSTYPE,MS$MS_TYPE) 
@@ -103,7 +162,7 @@ EXTRACT <- function(record){
 
 require(rrdf)
 ret <- new.rdf()
-for(i in list.files("OpenData/IPB_Halle",full.names=TRUE)[201:400]){
+for(i in list.files("OpenData/IPB_Halle",full.names=TRUE)){
 	EXTLIST <- EXTRACT(i)
 	for(j in 1:length(EXTLIST)){
 		if(regexpr("http", EXTLIST[[j]][3], fixed=TRUE) == 1){
@@ -114,20 +173,4 @@ for(i in list.files("OpenData/IPB_Halle",full.names=TRUE)[201:400]){
 			
 	}
 }
-save.rdf(ret, "IPB2.xml","RDF/XML")
-
-
-ret2 <- new.rdf()
-for(i in list.files("OpenData/UFZ",full.names=TRUE)[1:200]){
-	EXTLIST <- EXTRACT(i)
-	if(!is.null(EXTLIST)){
-		for(j in 1:length(EXTLIST)){
-			if(regexpr("http", EXTLIST[[j]][3], fixed=TRUE) == 1){
-				add.triple(ret2, EXTLIST[[j]][1],EXTLIST[[j]][2],EXTLIST[[j]][3])
-			} else{
-				add.data.triple(ret2, EXTLIST[[j]][1],EXTLIST[[j]][2],EXTLIST[[j]][3])
-			}	
-		}
-	}
-}
-save.rdf(ret2, "UFZ.xml","RDF/XML")
+save.rdf(ret, "IPB_full.N3","N3")

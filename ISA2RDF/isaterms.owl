@@ -1,0 +1,1627 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY isaterms "http://purl.org/isaterms/" >
+    <!ENTITY terms "http://purl.org/dc/terms/" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.isa-tools.org/owl/isa.owl#"
+     xml:base="http://www.isa-tools.org/owl/isa.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:terms="http://purl.org/dc/terms/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:isaterms="http://purl.org/isaterms/">
+    <owl:Ontology rdf:about="http://purl.org/isaterms">
+        <terms:title>The ISA ontology, where ISA stands for Investigation/Study/Assay.</terms:title>
+        <terms:creator>Alejandra Gonzalez-Beltran</terms:creator>
+        <terms:rights>This Ontology is distributed under a Creative Commons Attribution License - http://creativecommons.org/licenses/by/3.0/</terms:rights>
+        <terms:creator>Philippe Rocca-Serra</terms:creator>
+        <rdfs:seeAlso>http://isa-tools.org</rdfs:seeAlso>
+        <owl:versionInfo>1.0</owl:versionInfo>
+        <terms:description>This ontology defines the vocabulary used to describe ISA-TAB datasets. This vocabulary is mapped to external ontologies, mainly the Ontology for Biomedical Investigations (OBI).</terms:description>
+        <owl:versionIRI rdf:resource="&isaterms;1.0"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/dc/terms/creator -->
+
+    <owl:AnnotationProperty rdf:about="&terms;creator"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/description -->
+
+    <owl:AnnotationProperty rdf:about="&terms;description"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/rights -->
+
+    <owl:AnnotationProperty rdf:about="&terms;rights"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/title -->
+
+    <owl:AnnotationProperty rdf:about="&terms;title"/>
+    
+
+
+    <!-- http://purl.org/isaterms/equivalent_to -->
+
+    <owl:AnnotationProperty rdf:about="&isaterms;equivalent_to">
+        <rdfs:label>equivalent to</rdfs:label>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/is_a -->
+
+    <owl:AnnotationProperty rdf:about="&isaterms;is_a">
+        <rdfs:label>is a</rdfs:label>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/isaterms/declares -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;declares">
+        <rdfs:label>declares</rdfs:label>
+        <rdfs:domain rdf:resource="&isaterms;study_design"/>
+        <rdfs:range>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&isaterms;factor"/>
+                    <rdf:Description rdf:about="&isaterms;measurement"/>
+                    <rdf:Description rdf:about="&isaterms;technology"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:range>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/describes -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;describes">
+        <rdfs:label>describes</rdfs:label>
+        <rdfs:domain rdf:resource="&isaterms;information"/>
+        <owl:inverseOf rdf:resource="&isaterms;is_described_by"/>
+        <rdfs:range>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&isaterms;file"/>
+                    <rdf:Description rdf:about="&isaterms;material_entity"/>
+                    <rdf:Description rdf:about="&isaterms;process"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:range>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/employs -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;employs">
+        <rdfs:label>employs</rdfs:label>
+        <owl:inverseOf rdf:resource="&isaterms;empolyed_by"/>
+        <rdfs:domain rdf:resource="&isaterms;organisation"/>
+        <rdfs:range rdf:resource="&isaterms;person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/empolyed_by -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;empolyed_by">
+        <rdfs:label>employed by</rdfs:label>
+        <rdfs:range rdf:resource="&isaterms;organisation"/>
+        <rdfs:domain rdf:resource="&isaterms;person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/executed_during -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;executed_during">
+        <rdfs:label>executed during</rdfs:label>
+        <owl:inverseOf rdf:resource="&isaterms;executes"/>
+        <rdfs:range rdf:resource="&isaterms;process"/>
+        <rdfs:domain rdf:resource="&isaterms;protocol"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/executes -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;executes">
+        <rdfs:label>executes</rdfs:label>
+        <rdfs:domain rdf:resource="&isaterms;process"/>
+        <rdfs:range rdf:resource="&isaterms;protocol"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/has_ISA_file -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;has_ISA_file">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label xml:lang="en">has ISA file</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/has_factor_level -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;has_factor_level">
+        <rdfs:label>has factor level</rdfs:label>
+        <rdfs:domain rdf:resource="&isaterms;factor"/>
+        <rdfs:range rdf:resource="&isaterms;factor_value"/>
+        <rdfs:subPropertyOf rdf:resource="&isaterms;is_described_by"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/has_factor_value -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;has_factor_value">
+        <rdfs:label>has factor value</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&isaterms;is_described_by"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/has_input -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;has_input">
+        <rdfs:label>has input</rdfs:label>
+        <rdfs:domain rdf:resource="&isaterms;process"/>
+        <rdfs:range>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&isaterms;file"/>
+                    <rdf:Description rdf:about="&isaterms;material_entity"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:range>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/has_measurement -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;has_measurement">
+        <rdfs:label xml:lang="en">has measurement</rdfs:label>
+        <rdfs:domain rdf:resource="&isaterms;assay"/>
+        <rdfs:range rdf:resource="&isaterms;measurement"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/has_member -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;has_member">
+        <rdfs:label xml:lang="en">has member</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/has_output -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;has_output">
+        <rdfs:label>has output</rdfs:label>
+        <rdfs:domain rdf:resource="&isaterms;process"/>
+        <rdfs:range>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&isaterms;file"/>
+                    <rdf:Description rdf:about="&isaterms;material_entity"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:range>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/has_parameter_value -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;has_parameter_value">
+        <rdfs:label>has parameter value</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&isaterms;is_described_by"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/has_part -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;has_part">
+        <rdfs:label xml:lang="en">has part</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/has_technology -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;has_technology">
+        <rdfs:label xml:lang="en">has technology</rdfs:label>
+        <rdfs:domain rdf:resource="&isaterms;assay"/>
+        <rdfs:range rdf:resource="&isaterms;technology"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/identified_by -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;identified_by">
+        <rdfs:label>identified by</rdfs:label>
+        <rdfs:range rdf:resource="&isaterms;identifier"/>
+        <owl:inverseOf rdf:resource="&isaterms;is_identifier_of"/>
+        <rdfs:domain rdf:resource="&owl;Thing"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/is_defined_by -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;is_defined_by">
+        <rdfs:label>is defined by</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/is_described_by -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;is_described_by">
+        <rdfs:label>is described by</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/is_identifier_of -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;is_identifier_of">
+        <rdfs:label>is identifier of</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&isaterms;describes"/>
+        <rdfs:domain rdf:resource="&isaterms;identifier"/>
+        <rdfs:range rdf:resource="&owl;Thing"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/is_input_of -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;is_input_of">
+        <rdfs:label>is input of</rdfs:label>
+        <owl:inverseOf rdf:resource="&isaterms;has_input"/>
+        <rdfs:range rdf:resource="&isaterms;process"/>
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&isaterms;file"/>
+                    <rdf:Description rdf:about="&isaterms;material_entity"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/is_output_of -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;is_output_of">
+        <rdfs:label>is output of</rdfs:label>
+        <owl:inverseOf rdf:resource="&isaterms;has_output"/>
+        <rdfs:range rdf:resource="&isaterms;process"/>
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&isaterms;file"/>
+                    <rdf:Description rdf:about="&isaterms;material_entity"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/performed_by -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;performed_by">
+        <rdfs:label>performed by</rdfs:label>
+        <owl:inverseOf rdf:resource="&isaterms;performs"/>
+        <rdfs:range rdf:resource="&isaterms;person"/>
+        <rdfs:domain rdf:resource="&isaterms;process"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/performed_on -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;performed_on">
+        <rdfs:label>performed on</rdfs:label>
+        <rdfs:range rdf:resource="&isaterms;date"/>
+        <rdfs:domain rdf:resource="&isaterms;process"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/performs -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;performs">
+        <rdfs:label>performs</rdfs:label>
+        <rdfs:domain rdf:resource="&isaterms;person"/>
+        <rdfs:range rdf:resource="&isaterms;process"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/points_to -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;points_to">
+        <rdfs:label>points to</rdfs:label>
+        <rdfs:range rdf:resource="&isaterms;file"/>
+        <rdfs:domain rdf:resource="&isaterms;file"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/qualified_by -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;qualified_by">
+        <rdfs:label>qualified by</rdfs:label>
+        <rdfs:range rdf:resource="&isaterms;characteristic"/>
+        <owl:inverseOf rdf:resource="&isaterms;qualifies"/>
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&isaterms;extract"/>
+                    <rdf:Description rdf:about="&isaterms;labeled_extract"/>
+                    <rdf:Description rdf:about="&isaterms;sample"/>
+                    <rdf:Description rdf:about="&isaterms;source"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/isaterms/qualifies -->
+
+    <owl:ObjectProperty rdf:about="&isaterms;qualifies">
+        <rdfs:label>qualifies</rdfs:label>
+        <rdfs:domain rdf:resource="&isaterms;characteristic"/>
+        <rdfs:range>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&isaterms;extract"/>
+                    <rdf:Description rdf:about="&isaterms;labeled_extract"/>
+                    <rdf:Description rdf:about="&isaterms;sample"/>
+                    <rdf:Description rdf:about="&isaterms;source"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:range>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/isaterms/has_value -->
+
+    <owl:DatatypeProperty rdf:about="&isaterms;has_value">
+        <rdfs:label xml:lang="en">has value</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/isaterms/ISA_dataset -->
+
+    <owl:Class rdf:about="&isaterms;ISA_dataset">
+        <rdfs:label>ISA dataset</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+        <terms:description>An ISA dataset is contains the metadata corresponding to the description of an experiment and it is divied into the metadata for an investigation, associated studies and associated assays. The ISA dataset aims at capturing and communicating the complex metadata required to interpret experiments employing a combination of technologies, and the associated data files.
+
+The ISA dataset has to comply with the ISA specification available at the ISA tools website (http://isa-tools.org/). It can have distributions in tabular format (ISAtab distribution) or following the semantic web/linked data approach (ISAowl distribution), as generated by the ISA2OWL project.</terms:description>
+        <isaterms:is_a>dctypes:Dataset;http://purl.org/dc/dcmitype/Dataset</isaterms:is_a>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/ISAowl_distribution -->
+
+    <owl:Class rdf:about="&isaterms;ISAowl_distribution">
+        <rdfs:label rdf:datatype="&xsd;string">ISAowl distribution</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+        <terms:description rdf:datatype="&xsd;string">An ISAowl distribution represents the RDF/OWL form of an ISA dataset when generated by the ISA2OWL converter.</terms:description>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/ISArdf_distribution -->
+
+    <owl:Class rdf:about="&isaterms;ISArdf_distribution">
+        <rdfs:label>ISArdf distribution</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+        <terms:description>An ISArdf distribution represents the RDF/OWL form of an ISA dataset when generated by the ISA2RDF converter.</terms:description>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/ISAtab_distribution -->
+
+    <owl:Class rdf:about="&isaterms;ISAtab_distribution">
+        <rdfs:label xml:lang="en">ISAtab distribution</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;has_part"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;study_file"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;has_part"/>
+                <owl:onClass rdf:resource="&isaterms;investigation_file"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;has_part"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;assay_file"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <terms:description rdf:datatype="&xsd;string">An ISAtab distribution represents the tabular form of an ISA dataset. It could have been generated using ISAcreator, OntoMaton or any other spreadsheet software.</terms:description>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/address -->
+
+    <owl:Class rdf:about="&isaterms;address">
+        <rdfs:label>address</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/affiliation -->
+
+    <owl:Class rdf:about="&isaterms;affiliation">
+        <rdfs:label>affiliation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/array_data_matrix_file -->
+
+    <owl:Class rdf:about="&isaterms;array_data_matrix_file">
+        <rdfs:label>array data matrix file</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;derived_data_file"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/array_design_file -->
+
+    <owl:Class rdf:about="&isaterms;array_design_file">
+        <rdfs:label>array design file</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;file"/>
+        <terms:description>File containing the array design, used for a particular hybridization.</terms:description>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/assay -->
+
+    <owl:Class rdf:about="&isaterms;assay">
+        <rdfs:label xml:lang="en">assay</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&isaterms;has_measurement"/>
+                        <owl:someValuesFrom rdf:resource="&isaterms;measurement"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&isaterms;has_technology"/>
+                        <owl:someValuesFrom rdf:resource="&isaterms;technology"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&isaterms;process"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;has_ISA_file"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;assay_file"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/assay_file -->
+
+    <owl:Class rdf:about="&isaterms;assay_file">
+        <rdfs:label>assay file</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;file"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;describes"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;assay"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;points_to"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&isaterms;derived_data_file"/>
+                            <rdf:Description rdf:about="&isaterms;raw_data_file"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <terms:description>An assay file is a file that contains information about &apos;assays&apos; or measurements performed either on the whole initial subject (or source) or on a sample taken from the subject. These measurements produce qualitative or quantitative data and the assay file records the inputs and outputs of these measurements.</terms:description>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/author -->
+
+    <owl:Class rdf:about="&isaterms;author">
+        <rdfs:label xml:lang="en">author</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/characteristic -->
+
+    <owl:Class rdf:about="&isaterms;characteristic">
+        <rdfs:label>characteristic</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;qualifies"/>
+                <owl:allValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&isaterms;extract"/>
+                            <rdf:Description rdf:about="&isaterms;labeled_extract"/>
+                            <rdf:Description rdf:about="&isaterms;sample"/>
+                            <rdf:Description rdf:about="&isaterms;source"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:allValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/characteristic_value -->
+
+    <owl:Class rdf:about="&isaterms;characteristic_value">
+        <rdfs:label>characteristic value</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;descriptor_value"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/comment -->
+
+    <owl:Class rdf:about="&isaterms;comment">
+        <rdfs:label>comment</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+        <terms:description rdf:datatype="&xsd;string">An explanatory information entity.</terms:description>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/data_transformation -->
+
+    <owl:Class rdf:about="&isaterms;data_transformation">
+        <rdfs:label>data transformation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;process"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;has_output"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&isaterms;derived_data_file"/>
+                            <rdf:Description rdf:about="&isaterms;image_file"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;has_input"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&isaterms;derived_data_file"/>
+                            <rdf:Description rdf:about="&isaterms;raw_data_file"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/date -->
+
+    <owl:Class rdf:about="&isaterms;date">
+        <rdfs:label xml:lang="en">date</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/derived_array_data_matrix_file -->
+
+    <owl:Class rdf:about="&isaterms;derived_array_data_matrix_file">
+        <rdfs:label>derived array data matrix file</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;derived_data_file"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/derived_data_file -->
+
+    <owl:Class rdf:about="&isaterms;derived_data_file">
+        <rdfs:label>derived data file</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;file"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;is_output_of"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;data_transformation"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&isaterms;raw_data_file"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/derived_spectral_file -->
+
+    <owl:Class rdf:about="&isaterms;derived_spectral_file">
+        <rdfs:label>derived spectral file</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;derived_data_file"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/description -->
+
+    <owl:Class rdf:about="&isaterms;description">
+        <rdfs:label xml:lang="en">description</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/descriptor_value -->
+
+    <owl:Class rdf:about="&isaterms;descriptor_value">
+        <rdfs:label>descriptor value</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;describes"/>
+                <owl:allValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&isaterms;characteristic"/>
+                            <rdf:Description rdf:about="&isaterms;factor"/>
+                            <rdf:Description rdf:about="&isaterms;parameter"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:allValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/doi -->
+
+    <owl:Class rdf:about="&isaterms;doi">
+        <rdfs:label xml:lang="en">doi</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;identifier"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;is_identifier_of"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;publication"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/email -->
+
+    <owl:Class rdf:about="&isaterms;email">
+        <rdfs:label>email</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;describes"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;person"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <terms:description rdf:datatype="&xsd;string">an email address</terms:description>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/extract -->
+
+    <owl:Class rdf:about="&isaterms;extract">
+        <rdfs:label xml:lang="en">extract</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;material_entity"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;is_output_of"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&isaterms;process"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&isaterms;has_input"/>
+                                <owl:someValuesFrom rdf:resource="&isaterms;sample"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;qualified_by"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;characteristic"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/factor -->
+
+    <owl:Class rdf:about="&isaterms;factor">
+        <rdfs:label xml:lang="en">factor</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+        <terms:description rdf:datatype="&xsd;string">A factor corresponds to an independent variable manipulated by the experimentalist with the intention to affect biological systems in a way that can be measured by an assay.</terms:description>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/factor_value -->
+
+    <owl:Class rdf:about="&isaterms;factor_value">
+        <rdfs:label>factor value</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;descriptor_value"/>
+        <terms:description rdf:datatype="&xsd;string">An specific value assumed by a factor.</terms:description>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/fax_number -->
+
+    <owl:Class rdf:about="&isaterms;fax_number">
+        <rdfs:label>fax number</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;describes"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;person"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/file -->
+
+    <owl:Class rdf:about="&isaterms;file">
+        <rdfs:label xml:lang="en">file</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/first_name -->
+
+    <owl:Class rdf:about="&isaterms;first_name">
+        <rdfs:label>first name</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;name"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;describes"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;person"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/hybridization -->
+
+    <owl:Class rdf:about="&isaterms;hybridization">
+        <rdfs:label>hybridization</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;assay"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/identifier -->
+
+    <owl:Class rdf:about="&isaterms;identifier">
+        <rdfs:label xml:lang="en">identifier</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;is_identifier_of"/>
+                <owl:someValuesFrom rdf:resource="&owl;Thing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/image_file -->
+
+    <owl:Class rdf:about="&isaterms;image_file">
+        <rdfs:label>image file</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;file"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/information -->
+
+    <owl:Class rdf:about="&isaterms;information">
+        <rdfs:label>information</rdfs:label>
+        <isaterms:equivalent_to rdf:datatype="&xsd;string">IAO:information content entity; http://purl.obolibrary.org/obo/IAO_0000030</isaterms:equivalent_to>
+        <terms:description>details provided about some entity</terms:description>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/investigation -->
+
+    <owl:Class rdf:about="&isaterms;investigation">
+        <rdfs:label xml:lang="en">investigation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;process"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;is_described_by"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;description"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;has_part"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;study"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;has_ISA_file"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;investigation_file"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/investigation_file -->
+
+    <owl:Class rdf:about="&isaterms;investigation_file">
+        <rdfs:label>investigation file</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;file"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;points_to"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;study_file"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;points_to"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;assay_file"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;describes"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;investigation"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <terms:description rdf:datatype="&xsd;string">The Investigation file contains all the information needed to understand the overall goals and means used in an experiment; experimental steps (or sequences of events) are described in the Study and in the Assay
+file(s). The naming convention for this file: &apos;i_xxxxx.txt&apos;</terms:description>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/label -->
+
+    <owl:Class rdf:about="&isaterms;label">
+        <rdfs:label>label</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;material_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/labeled_extract -->
+
+    <owl:Class rdf:about="&isaterms;labeled_extract">
+        <rdfs:label xml:lang="en">labeled extract</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;material_entity"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;qualified_by"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;characteristic"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;is_output_of"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&isaterms;process"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&isaterms;has_input"/>
+                                <owl:someValuesFrom>
+                                    <owl:Class>
+                                        <owl:intersectionOf rdf:parseType="Collection">
+                                            <rdf:Description rdf:about="&isaterms;extract"/>
+                                            <rdf:Description rdf:about="&isaterms;label"/>
+                                        </owl:intersectionOf>
+                                    </owl:Class>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/last_name -->
+
+    <owl:Class rdf:about="&isaterms;last_name">
+        <rdfs:label>last name</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;name"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;describes"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;person"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/material_entity -->
+
+    <owl:Class rdf:about="&isaterms;material_entity">
+        <rdfs:label xml:lang="en">material entity</rdfs:label>
+        <isaterms:equivalent_to rdf:datatype="&xsd;string">BFO:material entity; http://purl.obolibrary.org/obo/BFO_0000040</isaterms:equivalent_to>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/measurement -->
+
+    <owl:Class rdf:about="&isaterms;measurement">
+        <rdfs:label xml:lang="en">measurement</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;process"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/mid_initials -->
+
+    <owl:Class rdf:about="&isaterms;mid_initials">
+        <rdfs:label xml:lang="en">mid initials</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;name"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/name -->
+
+    <owl:Class rdf:about="&isaterms;name">
+        <rdfs:label xml:lang="en">name</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;describes"/>
+                <owl:someValuesFrom rdf:resource="&owl;Thing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/normalization -->
+
+    <owl:Class rdf:about="&isaterms;normalization">
+        <rdfs:label>normalization</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;data_transformation"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;has_output"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;derived_data_file"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;has_input"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;raw_data_file"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/organisation -->
+
+    <owl:Class rdf:about="&isaterms;organisation">
+        <rdfs:label>organisation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;material_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/parameter -->
+
+    <owl:Class rdf:about="&isaterms;parameter">
+        <rdfs:label xml:lang="en">parameter</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/parameter_value -->
+
+    <owl:Class rdf:about="&isaterms;parameter_value">
+        <rdfs:label>parameter value</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;descriptor_value"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/performer -->
+
+    <owl:Class rdf:about="&isaterms;performer">
+        <rdfs:label>performer</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/person -->
+
+    <owl:Class rdf:about="&isaterms;person">
+        <rdfs:label xml:lang="en">person</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;material_entity"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;empolyed_by"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;organisation"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/population -->
+
+    <owl:Class rdf:about="&isaterms;population">
+        <rdfs:label xml:lang="en">population</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;material_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/process -->
+
+    <owl:Class rdf:about="&isaterms;process">
+        <rdfs:label xml:lang="en">process</rdfs:label>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;has_input"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&isaterms;file"/>
+                            <rdf:Description rdf:about="&isaterms;material_entity"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;has_output"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&isaterms;derived_data_file"/>
+                            <rdf:Description rdf:about="&isaterms;image_file"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;performed_by"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;person"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;performed_on"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;date"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <isaterms:equivalent_to rdf:datatype="&xsd;string">BFO:process; http://purl.obolibrary.org/obo/BFO_0000007</isaterms:equivalent_to>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/process_parameter -->
+
+    <owl:Class rdf:about="&isaterms;process_parameter">
+        <rdfs:label xml:lang="en">process parameter</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;parameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/protocol -->
+
+    <owl:Class rdf:about="&isaterms;protocol">
+        <rdfs:label xml:lang="en">protocol</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;identified_by"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&isaterms;doi"/>
+                            <rdf:Description rdf:about="&isaterms;pubmed_identifier"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;has_part"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;protocol_parameter"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;has_part"/>
+                <owl:onClass rdf:resource="&isaterms;title"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;is_described_by"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;description"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;executed_during"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;process"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <isaterms:equivalent_to>OBI:protocol; http://purl.obolibrary.org/obo/OBI_0000272</isaterms:equivalent_to>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/protocol_parameter -->
+
+    <owl:Class rdf:about="&isaterms;protocol_parameter">
+        <rdfs:label xml:lang="en">protocol parameter</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;parameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/publication -->
+
+    <owl:Class rdf:about="&isaterms;publication">
+        <rdfs:label xml:lang="en">publication</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;has_part"/>
+                <owl:onClass rdf:resource="&isaterms;title"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;describes"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&isaterms;investigation"/>
+                            <rdf:Description rdf:about="&isaterms;protocol"/>
+                            <rdf:Description rdf:about="&isaterms;study"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;identified_by"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&isaterms;doi"/>
+                            <rdf:Description rdf:about="&isaterms;pubmed_identifier"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/publication_status -->
+
+    <owl:Class rdf:about="&isaterms;publication_status">
+        <rdfs:label>publication status</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;describes"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;publication"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/pubmed_identifier -->
+
+    <owl:Class rdf:about="&isaterms;pubmed_identifier">
+        <rdfs:label xml:lang="en">pubmed identifier</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;identifier"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;is_identifier_of"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;publication"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/raw_data_file -->
+
+    <owl:Class rdf:about="&isaterms;raw_data_file">
+        <rdfs:label rdf:datatype="&xsd;string">raw data file</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;file"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;is_output_of"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;assay"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/raw_spectral_data_file -->
+
+    <owl:Class rdf:about="&isaterms;raw_spectral_data_file">
+        <rdfs:label>raw spectral data file</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;raw_data_file"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/release_date -->
+
+    <owl:Class rdf:about="&isaterms;release_date">
+        <rdfs:label xml:lang="en">release date</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;date"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/sample -->
+
+    <owl:Class rdf:about="&isaterms;sample">
+        <rdfs:label xml:lang="en">sample</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;material_entity"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;qualified_by"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;characteristic"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;is_output_of"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;process"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/scan -->
+
+    <owl:Class rdf:about="&isaterms;scan">
+        <rdfs:label>scan</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;process"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/source -->
+
+    <owl:Class rdf:about="&isaterms;source">
+        <rdfs:label xml:lang="en">source</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;material_entity"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;is_input_of"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;process"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;qualified_by"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;characteristic"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/study -->
+
+    <owl:Class rdf:about="&isaterms;study">
+        <rdfs:label xml:lang="en">study</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;process"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;has_ISA_file"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;study_file"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;executes"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;study_design"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;is_described_by"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;description"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;executes"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;protocol"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;has_part"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;assay"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/study_design -->
+
+    <owl:Class rdf:about="&isaterms;study_design">
+        <rdfs:label xml:lang="en">study design</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;declares"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;factor"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;executed_during"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;study"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/study_file -->
+
+    <owl:Class rdf:about="&isaterms;study_file">
+        <rdfs:label>study file</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;file"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;describes"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;study"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <terms:description>A study file contains information on the subject under study, its
+characteristics and any treatments applied</terms:description>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/study_group_population -->
+
+    <owl:Class rdf:about="&isaterms;study_group_population">
+        <rdfs:label>study group population</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;population"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/submission_date -->
+
+    <owl:Class rdf:about="&isaterms;submission_date">
+        <rdfs:label xml:lang="en">submission date</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;date"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/technology -->
+
+    <owl:Class rdf:about="&isaterms;technology">
+        <rdfs:label xml:lang="en">technology</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;process"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/technology_platform -->
+
+    <owl:Class rdf:about="&isaterms;technology_platform">
+        <rdfs:label xml:lang="en">technology platform</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;material_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/telephone_number -->
+
+    <owl:Class rdf:about="&isaterms;telephone_number">
+        <rdfs:label>telephone number</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;describes"/>
+                <owl:someValuesFrom rdf:resource="&isaterms;person"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/title -->
+
+    <owl:Class rdf:about="&isaterms;title">
+        <rdfs:label xml:lang="en">title</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&isaterms;describes"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&isaterms;investigation"/>
+                            <rdf:Description rdf:about="&isaterms;protocol"/>
+                            <rdf:Description rdf:about="&isaterms;publication"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <terms:description rdf:datatype="&xsd;string">An information entity that gives a name to the entity it denotes.</terms:description>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/isaterms/unit -->
+
+    <owl:Class rdf:about="&isaterms;unit">
+        <rdfs:label>unit</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&isaterms;information"/>
+        <terms:description rdf:datatype="&xsd;string">An information entity that denotes the unit of measure associated to a scalar measurement.</terms:description>
+        <isaterms:equivalent_to rdf:datatype="&xsd;string">IAO:measurement unit label; http://purl.obolibrary.org/obo/IAO_0000003</isaterms:equivalent_to>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+

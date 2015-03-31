@@ -10,10 +10,10 @@ library(Risa)
 
 # to handle RDF triples, we first need a triple store
 # so we create a new one
-ontModel  <- new.rdf(ontology=FALSE)
+ontModel  <- new.rdf(ontology=TRUE)
 summarize.rdf(ontModel)
 
- #function.isa2rdf <- function(working.directory){
+ #function.isa2rdf <- function(working.directory){ die Schleife war dafür gedacht,alle Ordner durchzugehen in denen die ISA-Dateien sind
 # than read ISAtab's and create an ISAtab object
 ISAtab.object <- readISAtab(path = getwd(), verbose = TRUE)
 
@@ -266,5 +266,5 @@ summarize.rdf(ontModel)
 
  #ontModel <- function.isa2rdf(getwd())
 # save the store
-save.rdf(ontModel, file = "ISAtab2RDF.rdf", format="RDF/XML")
-save.rdf(ontModel, file = "ISAtab2RDF.xml", format="N3")
+save.rdf(ontModel2, file = "wer.rdf", format="RDF/XML")
+save.rdf(ontModel2, file = "wer.xml", format="N3")

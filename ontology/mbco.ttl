@@ -34,7 +34,7 @@ mbco:has_accession a rdf:Property ;
     rdfs:isDefinedBy <http://www.ipb-halle.de/ontology/mbco#> ;
     rdfs:label "has_accession" ;
     rdfs:range xsd:string ;
-	rdfs:comment "The accession number of the record in Massbank" 
+	rdfs:comment "The accession number of the record in Massbank" ;
 	rdfs:domain mbco:record .
 
 mbco:hyperlink_record a rdf:Property ;

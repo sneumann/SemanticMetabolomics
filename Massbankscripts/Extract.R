@@ -6,7 +6,7 @@ Record2CHEBIrdf <- function(w, checkex = FALSE){
 	chebLink <- ""
 	
 	if(length(ChebLinkIndex >= 1)){
-		chebLink <- paste0("http://bio2rdf.org/chebi",substring(Links[[ChebLinkIndex]], 6))
+		chebLink <- paste0("http://purl.obolibrary.org/obo/CHEBI_",substring(Links[[ChebLinkIndex]], 6))
 	}
 	
 	if(chebLink == ""){
@@ -21,10 +21,9 @@ Record2CHEBIrdf <- function(w, checkex = FALSE){
 			} else{
 				return(NULL)
 			}
-			chebLink <- paste0("http://bio2rdf.org/chebi",substring(chebID,6))
+			chebLink <- paste0("http://purl.obolibrary.org/obo/CHEBI_",substring(chebID,7))
 		}
 	}
-	
 	return(chebLink)
 }
 
@@ -162,15 +161,45 @@ EXTRACT <- function(record){
 
 require(rrdf)
 ret <- new.rdf()
-for(i in list.files("OpenData/IPB_Halle",full.names=TRUE)){
-	EXTLIST <- EXTRACT(i)
+a <- 0
+FILES <- list.files("Massbank OD/record",full.names=TRUE,recursive=TRUE)
+pb <- txtProgressBar(min=1, max=length(FILES), title="Progress", style=3)
+numpredicates <- c("http://www.ipb-halle.de/ontology/mbco#has_rel_intensity","http://www.ipb-halle.de/ontology/mbco#has_intensity","http://www.ipb-halle.de/ontology/mbco#encodes_mz")
+
+for(i in FILES){
+	ERROR <- 0
+	tryCatch(
+	    mmm <- capture.output(EXTLIST <- EXTRACT(i)),
+		error = function(e){
+			ERROR <<- 1
+		}
+	)
+	if(ERROR){
+		print(i)
+		next
+	}
+	
+	
 	for(j in 1:length(EXTLIST)){
+		if(length(EXTLIST) == 0 | is.null(EXTLIST[[j]][3])){
+			a <- a + 1
+			setTxtProgressBar(pb, a)
+			break
+		}
+		
 		if(regexpr("http", EXTLIST[[j]][3], fixed=TRUE) == 1){
 			add.triple(ret, EXTLIST[[j]][1],EXTLIST[[j]][2],EXTLIST[[j]][3])
 		} else{
-			add.data.triple(ret, EXTLIST[[j]][1],EXTLIST[[j]][2],EXTLIST[[j]][3])
-		}	
+			if(EXTLIST[[j]][2] %in% numpredicates){
+				add.data.triple(ret, EXTLIST[[j]][1],EXTLIST[[j]][2],EXTLIST[[j]][3], type="float")
+			} else{
+				add.data.triple(ret, EXTLIST[[j]][1],EXTLIST[[j]][2],EXTLIST[[j]][3], type="string")
+			}
+		}
 			
 	}
+	a <- a + 1
+	setTxtProgressBar(pb, a)
 }
-save.rdf(ret, "IPB_full.N3","N3")
+close(pb)
+save.rdf(ret, "Opendata_full.N3","N3")

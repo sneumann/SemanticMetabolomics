@@ -1,270 +1,106 @@
-# this R-skript is a simple tool to convert ISAtab files to RDF files
+##This R-script is a simple tool to convert ISAtab files to RDF files
  
-# load "rrdf"
+##Load "rrdf"
 library(rrdf)
+library(tools)
 
-# install and load "Risa"
-source("http://bioconductor.org/biocLite.R")
-biocLite("Risa")
+##Install "Risa" if not installed yet and load it
+if(!("Risa" %in% rownames(installed.packages()))){
+	source("http://bioconductor.org/biocLite.R")
+	biocLite("Risa")
+}
+
 library(Risa)
 
-# to handle RDF triples, we first need a triple store
-# so we create a new one
-ontModel  <- new.rdf(ontology=TRUE)
-summarize.rdf(ontModel)
 
- #function.isa2rdf <- function(working.directory){ die Schleife war dafür gedacht,alle Ordner durchzugehen in denen die ISA-Dateien sind
-# than read ISAtab's and create an ISAtab object
-ISAtab.object <- readISAtab(path = getwd(), verbose = TRUE)
 
-# and add triples:
-# - investigation
-add.triple(ontModel,
-           subject=paste0("http://www.ipb-halle.de/data/metabolights/investigation:", ISAtab.object@investigation.filename),
-           predicate="rdfs:a",
-           object="http://www.ipb-halle.de/data/metabolights/investigation"
-          )
+#dirName <- "./MTBLS-Dateien/MTBLS17"
 
-# - study
-add.triple(ontModel,
-           subject=paste0("http://www.ipb-halle.de/data/metabolights/study:", ISAtab.object@study.filenames),
-           predicate="rdfs:a",
-           object="http://www.ipb-halle.de/data/metabolights/study"
-          )
 
-# - assay
-add.triple(ontModel,
-           subject=paste0("http://www.ipb-halle.de/data/metabolights/assay:", ISAtab.object@assay.filenames),
-           predicate="rdfs:a",
-           object="http://www.ipb-halle.de/data/metabolights/assay"
-)
+##Find all URIs
+isaTab2RDF <- function(ontModel, dirName){
+	ISAtab.object <- readISAtab(path = dirName, verbose = TRUE)
+	investigationLabel <- basename(dirName)
+	investigation <- paste0("http://msbi.ipb-halle.de/rdf/ontologydata/metabolights/investigation:", investigationLabel)
+	studyLabels <- ISAtab.object@study.identifiers
+	studies <- paste0("http://msbi.ipb-halle.de/rdf/ontologydata/metabolights/study:", studyLabels)
 
-# which study belongs to the investigation and vice versa
-# - filename <-> filenames
-add.triple(ontModel,
-           subject=paste0("http://www.ipb-halle.de/data/metabolights/investigation:", ISAtab.object@investigation.filename),
-           predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_study",
-           object=paste0("http://www.ipb-halle.de/data/metabolights/study:", ISAtab.object@study.filenames)
-          )
-add.triple(ontModel,
-           subject=paste0("http://www.ipb-halle.de/data/metabolights/study:", ISAtab.object@study.filenames),
-           predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_investigation",
-           object=paste0("http://www.ipb-halle.de/data/metabolights/investigation:", ISAtab.object@investigation.filename)
-          )
-# - identifier <-> identifiers
-add.triple(ontModel,
-           subject=paste0("http://www.ipb-halle.de/data/metabolights/investigation:", ISAtab.object@investigation.identifier),
-           predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_study",
-           object=paste0("http://www.ipb-halle.de/data/metabolights/study:", ISAtab.object@study.identifiers)
-)
-add.triple(ontModel,
-           subject=paste0("http://www.ipb-halle.de/data/metabolights/study:", ISAtab.object@study.identifiers),
-           predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_investigation",
-           object=paste0("http://www.ipb-halle.de/data/metabolights/investigation:", ISAtab.object@investigation.identifier)
-)
-# - title <-> titles
-add.triple(ontModel,
-           subject=paste0("http://www.ipb-halle.de/data/metabolights/investigation:", ISAtab.object@investigation.file$V2[8]),
-           predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_study",
-           object=paste0("http://www.ipb-halle.de/data/metabolights/study:", ISAtab.object@study.titles)
-)
-add.triple(ontModel,
-           subject=paste0("http://www.ipb-halle.de/data/metabolights/study:", ISAtab.object@study.titles),
-           predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_investigation",
-           object=paste0("http://www.ipb-halle.de/data/metabolights/investigation:", ISAtab.object@investigation.file$V2[8])
-)
 
-# which assay belongs to the study and vice versa
-# - filenames <-> filenames
-add.triple(ontModel,
-           subject=paste0("http://www.ipb-halle.de/data/metabolights/study:", ISAtab.object@study.filenames),
-           predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_assay",
-           object=paste0("http://www.ipb-halle.de/data/metabolights/assay:", ISAtab.object@assay.filenames)
-          )
-add.triple(ontModel,
-           subject=paste0("http://www.ipb-halle.de/data/metabolights/assay:", ISAtab.object@assay.filenames),
-           predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_study",
-           object=paste0("http://www.ipb-halle.de/data/metabolights/study:", ISAtab.object@study.filenames)
-          )
-# - identifiers <-> filenames
-add.triple(ontModel,
-           subject=paste0("http://www.ipb-halle.de/data/metabolights/study:", ISAtab.object@study.identifiers),
-           predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_assay",
-           object=paste0("http://www.ipb-halle.de/data/metabolights/assay:", ISAtab.object@assay.filenames)
-)
-add.triple(ontModel,
-           subject=paste0("http://www.ipb-halle.de/data/metabolights/assay:", ISAtab.object@assay.filenames),
-           predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_study",
-           object=paste0("http://www.ipb-halle.de/data/metabolights/study:", ISAtab.object@study.identifiers)
-)
-# - titles <-> filenames
-add.triple(ontModel,
-           subject=paste0("http://www.ipb-halle.de/data/metabolights/study:", ISAtab.object@study.titles),
-           predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_assay",
-           object=paste0("http://www.ipb-halle.de/data/metabolights/assay:", ISAtab.object@assay.filenames)
-)
-add.triple(ontModel,
-           subject=paste0("http://www.ipb-halle.de/data/metabolights/assay:", ISAtab.object@assay.filenames),
-           predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_study",
-           object=paste0("http://www.ipb-halle.de/data/metabolights/study:", ISAtab.object@study.titles)
-)
+	##Everything about investigations
+	add.triple(ontModel,investigation, "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "http://msbi.ipb-halle.de/rdf/ontology/metabolights#investigation")
+	add.data.triple(ontModel, investigation, "http://www.w3.org/2000/01/rdf-schema#label", investigationLabel)
 
-# which sample belongs to the study and vice versa
-# - filenames <-> sample name
-for( sample in 1:nrow(ISAtab.object@study.files[[ISAtab.object@study.identifiers]]["Sample Name"]) ){ 
-  add.triple(ontModel,
-             subject=paste0("http://www.ipb-halle.de/data/metabolights/study:", ISAtab.object@study.filenames),
-             predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_sample",
-             object=paste0("http://www.ipb-halle.de/data/metabolights/sample:", ISAtab.object@study.files[[ISAtab.object@study.identifiers]][sample,"Sample Name"])
-            )
-  add.triple(ontModel,
-             subject=paste0("http://www.ipb-halle.de/data/metabolights/sample:", ISAtab.object@study.files[[ISAtab.object@study.identifiers]][sample,"Sample Name"]),
-             predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_study",
-             object=paste0("http://www.ipb-halle.de/data/metabolights/study:", ISAtab.object@study.filenames)
-            )
+	##Everything about the studies
+	for(i in 1:length(studies)){
+			add.triple(ontModel, studies[i], "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "http://msbi.ipb-halle.de/rdf/ontology/metabolights#study")
+			add.triple(ontModel, investigation, "http://msbi.ipb-halle.de/rdf/ontology/metabolights#has_study", studies[i])
+			add.triple(ontModel, studies[i], "http://msbi.ipb-halle.de/rdf/ontology/metabolights#is_study_of", investigation)
+			add.data.triple(ontModel, studies[i], "http://www.w3.org/2000/01/rdf-schema#label", studyLabels[i])
+			
+			assaylist <- ISAtab.object@assay.filenames.per.study
+			
+			##Everything about the assays and metabolite assignment files which are part of the current study
+			for(j in 1:length(assaylist[[studyLabels[i]]])){
+				##Label is concatenation of investigation, study followed by number 
+				assayLabel <- paste0(investigationLabel, "_", studyLabels[i], "_", j)
+				assay <- paste0("http://msbi.ipb-halle.de/rdf/ontologydata/metabolights/assay:",assayLabel)
+				
+				add.data.triple(ontModel, assay, "http://www.w3.org/2000/01/rdf-schema#label", assayLabel)
+				add.data.triple(ontModel, assay, "http://msbi.ipb-halle.de/rdf/ontology/metabolights#measurement_type", ISAtab.object@assay.measurement.types[j])
+				add.data.triple(ontModel, assay, "http://msbi.ipb-halle.de/rdf/ontology/metabolights#technology_type", ISAtab.object@assay.technology.types[j])
+				add.data.triple(ontModel, assay, "http://msbi.ipb-halle.de/rdf/ontology/metabolights#has_file_name", assaylist[[studyLabels[i]]][[j]])
+				
+				add.triple(ontModel, assay, "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "http://msbi.ipb-halle.de/rdf/ontology/metabolights#assay")
+				add.triple(ontModel, studies[i], "http://msbi.ipb-halle.de/rdf/ontology/metabolights#has_assay", assay)
+				add.triple(ontModel, assay, "http://msbi.ipb-halle.de/rdf/ontology/metabolights#is_assay_of", studies[i])
+				
+				##Metabolite assignment file
+				maf_File <- ISAtab.object@assay.files[[j]][1,"Metabolite Assignment File"]
+				if(file.exists(paste0(dirName,"/",maf_File))){
+					mafLabel <- paste0(investigationLabel, "_", studyLabels[i], "_", j)
+					maf <- paste0("http://msbi.ipb-halle.de/rdf/ontologydata/metabolights/metabolite_assignment_file:", mafLabel)
+					
+					add.data.triple(ontModel, maf, "http://www.w3.org/2000/01/rdf-schema#label", mafLabel)
+					add.triple(ontModel, assay, "http://msbi.ipb-halle.de/rdf/ontology/metabolights#has_metabolite_assignment_file", maf)
+					add.triple(ontModel, maf, "http://msbi.ipb-halle.de/rdf/ontology/metabolights#is_metabolite_assignment_file_of", assay)
+					add.triple(ontModel, maf, "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "http://msbi.ipb-halle.de/rdf/ontology/metabolights#metabolite_assignment_file")
+					
+					maf_File <- ISAtab.object@assay.files[[j]][1,"Metabolite Assignment File"]
+					maf_File_Type <- file_ext(maf_File)
+					
+					chebisubs <- vector()
+					
+					if(maf_File_Type == "tsv"){
+						chebisubs <- read.table(paste0(dirName,"/",maf_File),header=TRUE,colClasses="character")[,"database_identifier"]
+					}
+					
+					if(maf_File_Type == "csv"){
+						chebisubs <- read.table(paste0(dirName,"/",maf_File),header=TRUE,colClasses="character")[,"identifier"]
+					}
+					
+					
+					
+					if(any(chebisubs != "")){
+						chebiIndex <- grep("^CHEBI:([[:digit:]]){1,}$",chebisubs)
+						chebiNums <- sub(":","_",chebisubs[chebiIndex])
+						for(k in 1:length(chebiNums)){
+							chebiLink <- paste0("http://purl.obolibrary.org/obo/", chebiNums[k])
+							add.triple(ontModel, maf, "http://msbi.ipb-halle.de/rdf/ontology/metabolights#describes_metabolite", chebiLink)
+							add.triple(ontModel, chebiLink, "http://msbi.ipb-halle.de/rdf/ontology/metabolights#is_described_in", maf)
+						}
+					}
+				}
+			}
+	}
 }
 
-# - identifier <-> sample name
-for( sample in 1:nrow(ISAtab.object@study.files[[ISAtab.object@study.identifiers]]["Sample Name"]) ){ 
-  add.triple(ontModel,
-             subject=paste0("http://www.ipb-halle.de/data/metabolights/study:", ISAtab.object@study.identifiers),
-             predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_sample",
-             object=paste0("http://www.ipb-halle.de/data/metabolights/sample:", ISAtab.object@study.files[[ISAtab.object@study.identifiers]][sample,"Sample Name"])
-  )
-  add.triple(ontModel,
-             subject=paste0("http://www.ipb-halle.de/data/metabolights/sample:", ISAtab.object@study.files[[ISAtab.object@study.identifiers]][sample,"Sample Name"]),
-             predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_study",
-             object=paste0("http://www.ipb-halle.de/data/metabolights/study:", ISAtab.object@study.identifiers)
-  )
+##Create new rdf store
+ontModel_ISA  <- new.rdf(ontology=TRUE)
+summarize.rdf(ontModel_ISA)
+
+for(ISAFolder in list.files("MTBLS-Dateien/", full.names=TRUE)[-c(1,23,35,45)]){
+	isaTab2RDF(ontModel_ISA, ISAFolder)
 }
-# - title <-> sample name
-for( sample in 1:nrow(ISAtab.object@study.files[[ISAtab.object@study.identifiers]]["Sample Name"]) ){ 
-  add.triple(ontModel,
-             subject=paste0("http://www.ipb-halle.de/data/metabolights/study:", ISAtab.object@study.titles),
-             predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_sample",
-             object=paste0("http://www.ipb-halle.de/data/metabolights/sample:", ISAtab.object@study.files[[ISAtab.object@study.identifiers]][sample,"Sample Name"])
-  )
-  add.triple(ontModel,
-             subject=paste0("http://www.ipb-halle.de/data/metabolights/sample:", ISAtab.object@study.files[[ISAtab.object@study.identifiers]][sample,"Sample Name"]),
-             predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_study",
-             object=paste0("http://www.ipb-halle.de/data/metabolights/study:", ISAtab.object@study.titles)
-  )
-}
-
-# which sample belongs to the assay and vice versa
-# - filenames <-> sample name
-for( sample in 1:nrow(ISAtab.object@assay.files[[ISAtab.object@assay.filenames]]["Sample Name"]) ){ 
-  add.triple(ontModel,
-             subject=paste0("http://www.ipb-halle.de/data/metabolights/assay:", ISAtab.object@assay.filenames),
-             predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_sample",
-             object=paste0("http://www.ipb-halle.de/data/metabolights/sample:", ISAtab.object@assay.files[[ISAtab.object@assay.filenames]][sample,"Sample Name"])
-  )
-  add.triple(ontModel,
-             subject=paste0("http://www.ipb-halle.de/data/metabolights/sample:", ISAtab.object@assay.files[[ISAtab.object@assay.filenames]][sample,"Sample Name"]),
-             predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_assay",
-             object=paste0("http://www.ipb-halle.de/data/metabolights/assay:", ISAtab.object@assay.filenames)
-  )
-}
-
-# which metabolite assignment file belongs to the assay and vice versa
-# - maf filename
-maf <- ISAtab.object@assay.files[[1]][1,"Metabolite Assignment File"]
-metabolite <- read.table(file=maf, header=TRUE)
-
-# - filename <-> maf
-add.triple(ontModel,
-           subject=paste0("http://www.ipb-halle.de/data/metabolights/assay:", ISAtab.object@assay.filenames),
-           predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_maf",
-           object=paste0("http://www.ipb-halle.de/data/metabolights/maf:", maf)
-)
-add.triple(ontModel,
-           subject=paste0("http://www.ipb-halle.de/data/metabolights/maf:", maf),
-           predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_assay",
-           object=paste0("http://www.ipb-halle.de/data/metabolights/assay:", ISAtab.object@assay.filenames)
-)
-
-# which metabolite attribute belongs to the sample and vice versa
-metabolite.sample <- ISAtab.object@assay.files[[ISAtab.object@assay.filenames]]["Sample Name"] # which samples are in the file
-# - database_identifier (chebi) <-> sample name
-metabolite.database_identifier <- grep(pattern="CHEBI",metabolite$database_identifier) # which attribute value exists
-for( value in metabolite.database_identifier ){
-  for( sample in metabolite.sample[[1]] ){
-    if( metabolite[value,sample]!=0){
-      add.triple(ontModel,
-                 subject=paste0("http://www.ipb-halle.de/data/metabolights/sample:", sample),
-                 predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_x-chebi",
-                 object=paste0("http://bio2rdf.org/chebi:", sub(".*:", "", metabolite$database_identifier[value]))
-                )
-      add.triple(ontModel,
-                 subject=paste0("http://bio2rdf.org/chebi:", sub(".*:", "", metabolite$database_identifier[value])),
-                 predicate="http://www.ipb-halle.de/ontology/metabolights/x-chebi_relate_to",
-                 object=paste0("http://www.ipb-halle.de/data/metabolights/sample:", sample)
-                )      
-    }
-  }
-}
-
-# - chemical_formula <-> sample name
-metabolite.chemical_formula <- which(metabolite$chemical_formula!="") # which attribute value exists
-for( value in metabolite.chemical_formula ){
-  for( sample in metabolite.sample[[1]] ){
-    if( metabolite[value,sample]!=0){
-      add.data.triple(ontModel,
-                 subject=paste0("http://www.ipb-halle.de/data/metabolights/sample:", sample),
-                 predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_chem-formula",
-                 data=paste0(metabolite$chemical_formula[value])
-      )    
-    }
-  }
-}
-
-# - smiles <-> sample name
-metabolite.smiles <- which(metabolite$smiles!="") # which attribute value exists
-for( value in metabolite.smiles ){
-  for( sample in metabolite.sample[[1]] ){
-    if( metabolite[value,sample]!=0){
-      add.data.triple(ontModel,
-                 subject=paste0("http://www.ipb-halle.de/data/metabolights/sample:", sample),
-                 predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_smiles",
-                 data=paste0(metabolite$smiles[value])
-      )   
-    }
-  }
-}
-
-# - inchi <-> sample name
-metabolite.inchi <- which(metabolite$inchi!="") # which attribute value exists
-for( value in metabolite.inchi ){
-  for( sample in metabolite.sample[[1]] ){
-    if( metabolite[value,sample]!=0){
-      add.data.triple(ontModel,
-                 subject=paste0("http://www.ipb-halle.de/data/metabolights/sample:", sample),
-                 predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_inchi",
-                 data=paste0(metabolite$inchi[value])
-      )    
-    }
-  }
-}
-
-# - metabolite_identification <-> sample name
-metabolite.metabolite_identification <- which(metabolite$metabolite_identification!="") # which attribute value exists
-for( value in metabolite.metabolite_identification ){
-  for( sample in metabolite.sample[[1]] ){
-    if( metabolite[value,sample]!=0){
-      add.data.triple(ontModel,
-                 subject=paste0("http://www.ipb-halle.de/data/metabolights/sample:", sample),
-                 predicate="http://www.ipb-halle.de/ontology/metabolights/relate_to_metabolite-ident",
-                 data=paste0(metabolite$metabolite_identification[value])
-      )     
-    }
-  }
-}
-summarize.rdf(ontModel)
-#return(ontModel)
-
-#}
-
- #ontModel <- function.isa2rdf(getwd())
-# save the store
-save.rdf(ontModel2, file = "wer.rdf", format="RDF/XML")
-save.rdf(ontModel2, file = "wer.xml", format="N3")
+	
+save.rdf(ontModel_ISA, file = "wer.rdf", format="RDF/XML")
+save.rdf(ontModel_ISA, file = "wer.n3", format="N3")

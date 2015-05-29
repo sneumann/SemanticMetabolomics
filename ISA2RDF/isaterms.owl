@@ -8,6 +8,7 @@
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+	<!ENTITY isatermsplus "http://msbi.ipb-halle.de/rdf/ontology/isatermsplus/" >
 ]>
 
 
@@ -18,7 +19,8 @@
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-     xmlns:isaterms="http://purl.org/isaterms/">
+     xmlns:isaterms="http://purl.org/isaterms/"
+	 xmlns:isatermsplus="http://msbi.ipb-halle.de/rdf/ontology/isatermsplus/">
     <owl:Ontology rdf:about="http://purl.org/isaterms">
         <terms:title>The ISA ontology, where ISA stands for Investigation/Study/Assay.</terms:title>
         <terms:creator>Alejandra Gonzalez-Beltran</terms:creator>
@@ -171,13 +173,18 @@
         <rdfs:range rdf:resource="&isaterms;protocol"/>
     </owl:ObjectProperty>
     
-
-
     <!-- http://purl.org/isaterms/has_ISA_file -->
 
     <owl:ObjectProperty rdf:about="&isaterms;has_ISA_file">
         <rdf:type rdf:resource="&owl;FunctionalProperty"/>
         <rdfs:label xml:lang="en">has ISA file</rdfs:label>
+    </owl:ObjectProperty>
+
+    <!-- http://msbi.ipb-halle.de/rdf/ontology/isatermsplus/has_MAF_file -->
+
+    <owl:ObjectProperty rdf:about="&isatermsplus;has_MAF_file">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label xml:lang="en">has MAF file</rdfs:label>
     </owl:ObjectProperty>
     
 

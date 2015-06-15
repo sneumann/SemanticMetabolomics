@@ -2,6 +2,10 @@
 shopt -s nullglob
 threads=12
 password=cat pass.txt
+#path to the R script
+scriptname=cat Extract.R
+#path to the massbank OD folder
+foldername=cat folderpath
 
 mol_fname=`curl -s ftp://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBL-RDF/latest/ --list-only | grep  molecule.ttl`
 #echo "ftp://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBL-RDF/latest/$mol_fname"
@@ -20,6 +24,8 @@ svn checkout "http://www.massbank.jp/SVN/OpenData/record/"
 #Run R-Script
 
 #/usr/bin/env Rscript ...
+echo "Rscript $scriptname -f $foldername"
+#Resulting N3 is in ./Opendata_full.N3
 
 echo "SPARQL CLEAR GRAPH <www.massbank.jp>;" | isql-v -P "$password"
 echo "SPARQL CLEAR GRAPH <www.ebi.ac.uk/chebi/>;" | isql-v -P "$password"
@@ -35,5 +41,4 @@ for i in 1 .. threads
 do
 	echo "rdf_loader_run();" | isql-v -P "$password"
 done
-
 

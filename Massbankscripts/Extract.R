@@ -174,7 +174,7 @@ EXTRACT <- function(record){
 require(rrdf)
 ret <- new.rdf()
 a <- 0
-FILES <- list.files(f,full.names=TRUE,recursive=TRUE)
+FILES <- list.files(fileName,full.names=TRUE,recursive=TRUE)
 pb <- txtProgressBar(min=1, max=length(FILES), title="Progress", style=3)
 numpredicates <- c("http://msbi.ipb-halle.de/rdf/ontology/mbco#has_rel_intensity","http://msbi.ipb-halle.de/rdf/ontology/mbco#has_intensity","http://msbi.ipb-halle.de/rdf/ontology/mbco#encodes_mz")
 

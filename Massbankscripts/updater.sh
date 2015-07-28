@@ -83,13 +83,13 @@ if [ "$massbank" = "true" ] ; then
     echo "Running Massbank Script - $scriptname"
     #Run R-Script
 
-    #/usr/bin/env Rscript ...
     echo "Rscript $scriptname -f $foldername"
+    /usr/bin/env Rscript $scriptname -f $foldername
     #Resulting N3 is in ./Opendata_full.N3
 
 fi
 
-if[ "$install" = "true" ] ; then
+if [ "$install" = "true" ] ; then
     echo "Installing new data into Virtuoso"
 
     echo "SPARQL CLEAR GRAPH <www.massbank.jp>;" | isql-v -P "$password"

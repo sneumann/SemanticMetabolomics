@@ -1,10 +1,17 @@
 library(getopt)
 
-spec <- matrix(
-	c('filename', 'f', 1, "character"),
-byrow=TRUE, nrow=1, ncol=4)
+spec <- matrix(c(
+    'filename', 'f', 1, "character",
+    'help', 'h', 0, "logical"
+),byrow=TRUE, nrow=2, ncol=4)
 
 opt <- getopt(spec)
+
+if ( !is.null(opt$help) ) {
+    cat(getopt(spec, usage=TRUE));
+    q(status=1);
+}
+
 fileName <- opt$f
 
 Record2CHEBIrdf <- function(w, checkex = FALSE){

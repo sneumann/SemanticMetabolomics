@@ -2,11 +2,11 @@
 
 shopt -s nullglob
 threads=12
-password=cat pass.txt
+password=$(cat pass.txt)
 #path to the R script
 scriptname=Extract.R
 #path to the massbank OD folder
-foldername="./"
+foldername="./record"
 download=false
 massbank=false
 install=false
@@ -14,7 +14,7 @@ install=false
 while getopts "f:dimat:hp:t:" opt; do
 case $opt in
 h)
-echo "Help:\n -f set the folder for the Massbank script [./]\n -d just download new files without installing them\n -m just run the Massbank script\n -i just reinstall all files into the Virtuso instance\n -a do a complete update (--> same as -d -i -m)\n -t number of threads in Virtuso to integrate the new data [12]\n -p Enter Virtuoso passwort, otherwise this script will phrase pass.txt located in the scripts folder\n -h shows this help" >&2
+echo -e "Help:\n -f set the folder for the Massbank script [./record]\n -d just download new files without installing them\n -m just run the Massbank script\n -i just reinstall all files into the Virtuso instance\n -a do a complete update (--> same as -d -i -m)\n -t number of threads in Virtuso to integrate the new data [12]\n -p Enter Virtuoso passwort, otherwise this script will phrase pass.txt located in the scripts folder\n -h shows this help" >&2
 exit 1
 ;;
 \?)
@@ -51,7 +51,7 @@ passwort=$OPTARG
 esac
 done
 
-if ["download" = true] ; then
+if [ "$download" = "true" ] ; then
     echo "Getting path of molecule.ttl"
     mol_fname=`curl -s ftp://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBL-RDF/latest/ --list-only | grep  molecule.ttl`
     #echo "ftp://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBL-RDF/latest/$mol_fname"
@@ -79,7 +79,7 @@ if ["download" = true] ; then
 
 fi
 
-if ["massbank" = true] ; then
+if [ "$massbank" = "true" ] ; then
     echo "Running Massbank Script - $scriptname"
     #Run R-Script
 
@@ -89,7 +89,7 @@ if ["massbank" = true] ; then
 
 fi
 
-if["install" = true] ; then
+if[ "$install" = "true" ] ; then
     echo "Installing new data into Virtuoso"
 
     echo "SPARQL CLEAR GRAPH <www.massbank.jp>;" | isql-v -P "$password"

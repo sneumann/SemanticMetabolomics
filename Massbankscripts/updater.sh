@@ -54,7 +54,7 @@ password=$OPTARG
 esac
 done
 
-if [ "$download" = "true" ] ; then
+if [ "$download" == "true" ] ; then
     echo "Getting path of molecule.ttl"
     mol_fname=`curl -s ftp://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBL-RDF/latest/ --list-only | grep  molecule.ttl`
     #echo "ftp://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBL-RDF/latest/$mol_fname"
@@ -82,7 +82,7 @@ if [ "$download" = "true" ] ; then
 
 fi
 
-if [ "$massbank" = "true" ] ; then
+if [ "$massbank" == "true" ] ; then
     echo "Running Massbank Script - $scriptname"
     #Run R-Script
 
@@ -94,7 +94,7 @@ if [ "$massbank" = "true" ] ; then
 
 fi
 
-if [ "$install_var" = "true" ] ; then
+if [ "$install_var" == "true" ] ; then
     echo "Installing new data into Virtuoso"
     #If isql-v is not working for you, you should use isql-vt (make a symlink or change this script)
 
@@ -130,4 +130,3 @@ if [ "$install_var" = "true" ] ; then
     # done
 
 fi
-
